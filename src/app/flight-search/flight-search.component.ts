@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 import { Flight } from '../entities/flight';
+import { FlightService } from './flight.service';
 
 @Component({
   selector: 'flight-search',
@@ -9,25 +9,20 @@ import { Flight } from '../entities/flight';
   styleUrls: ['./flight-search.component.css']
 })
 export class FlightSearchComponent implements OnInit {
-  from: string;
-  to: string;
+  from = 'Graz';
+  to = 'Hamburg';
   flights: Flight[] = [];
   selectedFlight: Flight;
 
   message: string;
 
-  private url = 'http://www.angular.at/api/flight';
-  private headers = new HttpHeaders().set('Accept', 'application/json');
-
-  constructor(private http: HttpClient) {}
+  constructor(private flightService: FlightService) {}
 
   ngOnInit(): void {}
 
   search(): void {
-    const params = new HttpParams().set('from', this.from).set('to', this.to);
-
-    this.http.get<Flight[]>(this.url, { headers: this.headers, params }).subscribe({
-      next: (flights: Flight[]) => {
+    this.flightService.find(this.from, this.to).subscribe({
+      next: (flights) => {
         this.flights = flights;
       },
       error: (errResp) => {
@@ -44,14 +39,14 @@ export class FlightSearchComponent implements OnInit {
   }
 
   save(): void {
-    this.http.post<Flight>(this.url, this.selectedFlight, { headers: this.headers }).subscribe({
+    this.flightService.save(this.selectedFlight).subscribe({
       next: (flight) => {
         this.selectedFlight = flight;
         this.message = 'Success!';
       },
       error: (errResponse) => {
         console.error('Error', errResponse);
-        this.message = 'Error: ';
+        this.message = 'Error!';
       }
     });
   }
