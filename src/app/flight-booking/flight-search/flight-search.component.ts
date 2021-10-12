@@ -24,9 +24,9 @@ export class FlightSearchComponent implements OnInit, OnDestroy {
 
   onDestroySubject = new Subject<void>();
 
-  basket: { [id: number]: boolean } = {
-    '3': true,
-    '5': true
+  basket: Record<number, boolean> = {
+    3: true,
+    5: true
   };
 
   constructor(private flightService: FlightService) {}
