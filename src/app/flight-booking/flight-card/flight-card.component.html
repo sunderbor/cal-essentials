@@ -12,7 +12,8 @@
       <button *ngIf="isSelected" class="btn btn-default" (click)="deselect()">Remove</button>
 
       <ng-content></ng-content>
+
+      <button class="btn btn-default" (click)="edit.emit()">Edit</button>
     </p>
   </div>
 </div>
-

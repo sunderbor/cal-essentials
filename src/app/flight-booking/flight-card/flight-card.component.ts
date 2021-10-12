@@ -13,6 +13,7 @@ export class FlightCardComponent implements OnInit, OnChanges {
   @Input() item: Flight;
   @Input() isSelected: boolean;
   @Output() isSelectedChange = new EventEmitter<boolean>();
+  @Output() edit = new EventEmitter<void>();
 
   ngOnChanges(): void {
     if (this.debug) {
