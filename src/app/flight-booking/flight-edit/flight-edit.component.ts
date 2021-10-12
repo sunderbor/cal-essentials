@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FlightService } from '../flight-search/flight.service';
 import { Flight } from '../../entities/flight';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { validateCity } from '../shared/validation/city-validator';
 
 @Component({
   selector: 'flight-edit',
@@ -17,7 +18,7 @@ export class FlightEditComponent implements OnChanges, OnInit {
     from: [
       '',
       {
-        validators: [Validators.required, Validators.minLength(3), Validators.maxLength(15)],
+        validators: [Validators.required, Validators.minLength(3), Validators.maxLength(15), validateCity],
         updateOn: 'blur'
       },
       []
@@ -25,7 +26,7 @@ export class FlightEditComponent implements OnChanges, OnInit {
     to: [
       '',
       {
-        validators: [Validators.required, Validators.minLength(3), Validators.maxLength(15)],
+        validators: [Validators.required, Validators.minLength(3), Validators.maxLength(15), validateCity],
         updateOn: 'blur'
       },
       []
