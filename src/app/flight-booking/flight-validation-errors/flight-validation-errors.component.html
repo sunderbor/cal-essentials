@@ -1,0 +1,9 @@
+<div *ngIf="errors"> {{ fieldLabel }} is invalid. </div>
+
+<div *ngIf="errors?.required"> {{ fieldLabel }} is required. </div>
+
+<div *ngIf="errors?.minlength"> {{ fieldLabel }} minlength is {{ minLength }}. </div>
+
+<div *ngIf="errors?.maxlength"> {{ fieldLabel }} maxlength is {{ maxLength }}. </div>
+
+<div *ngIf="errors?.pattern"> {{ fieldLabel }} has invalid input. </div>
