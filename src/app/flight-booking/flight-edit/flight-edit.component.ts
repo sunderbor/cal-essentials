@@ -8,29 +8,27 @@ import { Flight } from '../../entities/flight';
   templateUrl: './flight-edit.component.html',
   styleUrls: ['./flight-edit.component.css']
 })
-export class FlightEditComponent implements OnInit {
+export class FlightEditComponent implements OnChanges, OnInit {
   @Input() flight: Flight;
 
-  editForm: FormGroup;
+  editForm: FormGroup = this.fb.group({
+    id: [0, Validators.required],
+    from: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(15)]],
+    to: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(15)]],
+    date: ['', [Validators.required, Validators.minLength(33), Validators.maxLength(33)]]
+  });
 
   message = '';
 
   constructor(private fb: FormBuilder, private flightService: FlightService) {}
 
   ngOnChanges(): void {
-    if (this.flight && this.editForm) {
-      this.editForm.setValue({ ...this.flight });
+    if (this.editForm && this.flight) {
+      this.editForm.patchValue(this.flight);
     }
   }
 
   ngOnInit(): void {
-    this.editForm = this.fb.group({
-      id: [1],
-      from: [],
-      to: [],
-      date: []
-    });
-
     /*this.editForm.valueChanges.subscribe((value) => {
       console.log(value);
     });*/
