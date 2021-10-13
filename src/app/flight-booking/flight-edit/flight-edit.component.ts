@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+
 import { FlightService } from '../flight-search/flight.service';
 import { Flight } from '../../entities/flight';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
@@ -15,6 +17,10 @@ import { pattern } from '../../shared/global';
 export class FlightEditComponent implements OnChanges, OnInit {
   @Input() flight: Flight;
   @Output() flightChange = new EventEmitter<Flight>();
+
+  debug = true;
+  id: string;
+  showDetails: string;
 
   pattern = pattern;
 
@@ -53,7 +59,7 @@ export class FlightEditComponent implements OnChanges, OnInit {
 
   message = '';
 
-  constructor(private fb: FormBuilder, private flightService: FlightService) {
+  constructor(private fb: FormBuilder, private flightService: FlightService, private route: ActivatedRoute) {
     this.editForm.validator = validateRoundTrip;
   }
 
@@ -72,6 +78,11 @@ export class FlightEditComponent implements OnChanges, OnInit {
       .subscribe((value) => {
         console.log(value);
       });
+
+    this.route.params.subscribe((params) => {
+      this.id = params['id'];
+      this.showDetails = params['showDetails'];
+    });
   }
 
   save(): void {
