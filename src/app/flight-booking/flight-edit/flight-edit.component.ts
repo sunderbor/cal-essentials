@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 
-import { FlightService } from '../flight-search/flight.service';
+import { FlightService } from '../shared/services/flight.service';
 import { Flight } from '../../entities/flight';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { validateCity } from '../shared/validation/city-validator';
@@ -64,9 +64,7 @@ export class FlightEditComponent implements OnChanges, OnInit {
   }
 
   ngOnChanges(): void {
-    if (this.editForm && this.flight) {
-      this.editForm.patchValue(this.flight);
-    }
+    this.patchFormValue();
   }
 
   ngOnInit(): void {
@@ -79,10 +77,7 @@ export class FlightEditComponent implements OnChanges, OnInit {
         console.log(value);
       });
 
-    this.route.params.subscribe((params) => {
-      this.id = params['id'];
-      this.showDetails = params['showDetails'];
-    });
+    this.route.params.subscribe((params) => this.onRouteParams(params));
   }
 
   save(): void {
@@ -99,11 +94,35 @@ export class FlightEditComponent implements OnChanges, OnInit {
 
         this.flightChange.emit(flight);
 
-        this.message = 'Success!';
+        this.flight = flight;
+        this.message = 'Success saving!';
+        this.patchFormValue();
       },
       error: (errResponse) => {
         console.error('Error', errResponse);
-        this.message = 'Error!';
+        this.message = 'Error saving!';
+      }
+    });
+  }
+
+  private patchFormValue() {
+    if (this.editForm && this.flight) {
+      this.editForm.patchValue(this.flight);
+    }
+  }
+
+  private onRouteParams(params: Params) {
+    this.id = params['id'];
+    this.showDetails = params['showDetails'];
+
+    this.flightService.findById(this.id).subscribe({
+      next: (flight) => {
+        this.flight = flight;
+        this.message = 'Success loading!';
+        this.patchFormValue();
+      },
+      error: (err) => {
+        this.message = 'Error Loading!';
       }
     });
   }
