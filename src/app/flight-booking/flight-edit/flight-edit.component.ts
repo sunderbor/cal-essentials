@@ -18,7 +18,12 @@ export class FlightEditComponent implements OnChanges, OnInit {
     from: [
       '',
       {
-        validators: [Validators.required, Validators.minLength(3), Validators.maxLength(15), validateCity],
+        validators: [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(15),
+          validateCity(['Graz', 'Wien', 'Hamburg', 'Berlin'])
+        ],
         updateOn: 'blur'
       },
       []
@@ -26,7 +31,12 @@ export class FlightEditComponent implements OnChanges, OnInit {
     to: [
       '',
       {
-        validators: [Validators.required, Validators.minLength(3), Validators.maxLength(15), validateCity],
+        validators: [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(15),
+          validateCity(['Graz', 'Wien', 'Hamburg', 'Berlin'])
+        ],
         updateOn: 'blur'
       },
       []
