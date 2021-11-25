@@ -15,7 +15,7 @@
                [minlength]="minLength"
                [maxlength]="maxLength"
                pattern="[a-zA-ZäöüÄÖÜß ]*"
-               city>
+               [city]="['Graz', 'Salzburg', 'Hamburg', 'München']">
       </div>
 
       <flight-validation-errors fieldLabel="From"
@@ -33,7 +33,7 @@
                [minlength]="minLength"
                [maxlength]="maxLength"
                pattern="[a-zA-ZäöüÄÖÜß ]*"
-               city>
+               [city]="['Graz', 'Salzburg', 'Hamburg', 'München']">
       </div>
 
       <flight-validation-errors fieldLabel="To"
