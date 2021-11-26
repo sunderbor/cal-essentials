@@ -14,7 +14,7 @@
                required="required"
                [minlength]="minLength"
                [maxlength]="maxLength"
-               pattern="[a-zA-ZäöüÄÖÜß ]*"
+               [pattern]="pattern"
                asyncCity>
       </div>
 
@@ -34,7 +34,7 @@
                required="required"
                [minlength]="minLength"
                [maxlength]="maxLength"
-               pattern="[a-zA-ZäöüÄÖÜß ]*"
+               [pattern]="pattern"
                [city]="['Graz', 'Salzburg', 'Hamburg', 'München']">
       </div>
 
