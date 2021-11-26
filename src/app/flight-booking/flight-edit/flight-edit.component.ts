@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FlightService } from '../flight-search/flight.service';
 import { Flight } from '../../entities/flight';
@@ -13,6 +13,7 @@ import { validateRoundTrip } from '../shared/validation/round-trip-validator';
 })
 export class FlightEditComponent implements OnChanges, OnInit {
   @Input() flight: Flight;
+  @Output() flightChange = new EventEmitter<Flight>();
 
   editForm: FormGroup = this.fb.group({
     id: [0, Validators.required, []],
@@ -71,6 +72,17 @@ export class FlightEditComponent implements OnChanges, OnInit {
   save(): void {
     this.flightService.save(this.editForm.value).subscribe({
       next: (flight) => {
+        // console.warn('FlightEditComponent - save()');
+        // console.log(flight);
+
+        // this.flight.date = flight.date;
+        // this.flight.delayed = flight.delayed;
+        // this.flight.from = flight.from;
+        // this.flight.id = flight.id;
+        // this.flight.to = flight.to;
+
+        this.flightChange.emit(flight);
+
         this.message = 'Success!';
       },
       error: (errResponse) => {
