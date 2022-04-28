@@ -5,6 +5,7 @@ import { Flight } from '../../entities/flight';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { validateCity } from '../shared/validation/city-validator';
 import { validateRoundTrip } from '../shared/validation/round-trip-validator';
+import { pattern } from '../../shared/global';
 
 @Component({
   selector: 'flight-edit',
@@ -15,6 +16,8 @@ export class FlightEditComponent implements OnChanges, OnInit {
   @Input() flight: Flight;
   @Output() flightChange = new EventEmitter<Flight>();
 
+  pattern = pattern;
+
   editForm: FormGroup = this.fb.group({
     id: [0, Validators.required, []],
     from: [
@@ -24,6 +27,7 @@ export class FlightEditComponent implements OnChanges, OnInit {
           Validators.required,
           Validators.minLength(3),
           Validators.maxLength(15),
+          Validators.pattern(this.pattern),
           validateCity(['Graz', 'Wien', 'Hamburg', 'Berlin'])
         ],
         updateOn: 'blur'
@@ -37,6 +41,7 @@ export class FlightEditComponent implements OnChanges, OnInit {
           Validators.required,
           Validators.minLength(3),
           Validators.maxLength(15),
+          Validators.pattern(this.pattern),
           validateCity(['Graz', 'Wien', 'Hamburg', 'Berlin'])
         ],
         updateOn: 'blur'
