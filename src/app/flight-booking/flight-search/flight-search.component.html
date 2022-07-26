@@ -102,7 +102,8 @@
 <div *ngIf="flights.length > 0" class="row">
   <div *ngFor="let f of flights" class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
     <!--<flight-card [item]="f" [isSelected]="basket[f.id]" (isSelectedChange)="basket[f.id] = $event">-->
-    <flight-card [item]="f" [(isSelected)]="basket[f.id]">
+    <flight-card [item]="f" [(isSelected)]="basket[f.id]" (isSelectedChange)="$event ? selectedFlight = f : selectedFlight = null">
+      <flight-status-toggle style="margin-left: 10px" [(status)]="f.delayed"></flight-status-toggle>
     </flight-card>
   </div>
 </div>
@@ -114,7 +115,8 @@
 </div>
 
 
-<div *ngIf="selectedFlight">
+<!--<div *ngIf="selectedFlight" id="selectedFlight">-->
+<ng-container *ngIf="selectedFlight">
   <div>
     {{ message }}
   </div>
@@ -140,4 +142,4 @@
   </div>
 
   <button (click)="save()" class="btn btn-default">Save</button>
-</div>
+</ng-container>
