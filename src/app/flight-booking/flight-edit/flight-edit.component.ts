@@ -2,6 +2,7 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FlightService } from '../flight-search/flight.service';
 import { Flight } from '../../entities/flight';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'flight-edit',
@@ -29,9 +30,14 @@ export class FlightEditComponent implements OnChanges, OnInit {
   }
 
   ngOnInit(): void {
-    /*this.editForm.valueChanges.subscribe((value) => {
-      console.log(value);
-    });*/
+    this.editForm.valueChanges
+      .pipe(
+        debounceTime(250),
+        distinctUntilChanged((a, b) => a.id === b.id && a.from === b.from && a.to === b.to && a.date === b.date)
+      )
+      .subscribe((value) => {
+        console.log(value);
+      });
   }
 
   save(): void {
