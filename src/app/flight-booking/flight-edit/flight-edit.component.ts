@@ -13,10 +13,24 @@ export class FlightEditComponent implements OnChanges, OnInit {
   @Input() flight: Flight;
 
   editForm: FormGroup = this.fb.group({
-    id: [0, Validators.required],
-    from: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(15)]],
-    to: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(15)]],
-    date: ['', [Validators.required, Validators.minLength(33), Validators.maxLength(33)]]
+    id: [0, Validators.required, []],
+    from: [
+      '',
+      {
+        validators: [Validators.required, Validators.minLength(3), Validators.maxLength(15)],
+        updateOn: 'blur'
+      },
+      []
+    ],
+    to: [
+      '',
+      {
+        validators: [Validators.required, Validators.minLength(3), Validators.maxLength(15)],
+        updateOn: 'blur'
+      },
+      []
+    ],
+    date: ['', [Validators.required, Validators.minLength(33), Validators.maxLength(33)], []]
   });
 
   message = '';
